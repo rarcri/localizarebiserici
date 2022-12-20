@@ -1,0 +1,26 @@
+[    
+    {
+        "name":"Biserica AZS Lunca Ampoitei",
+        "lat":"46.13905125936555",
+        "long":"23.37549861113408"
+
+    },
+    {
+        "name":"Biserica AZS Alba Iulia",
+        "lat":"46.0743294161977", 
+        "long":"23.565809905868225"
+
+    },
+    {
+        "name":"Biserica AZS Brasov",
+        "lat":"45.6616627908713", 
+        "long":"25.588157305991825"
+
+    },
+    {
+        "name":"Biserica AZS Baia Mare",
+        "lat":"47.65338637234656", 
+        "long":"23.575528018229697"
+
+    }
+]
