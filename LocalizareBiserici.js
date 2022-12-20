@@ -890,7 +890,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "207";
+	app.meta.h["build"] = "210";
 	app.meta.h["company"] = "Company Name";
 	app.meta.h["file"] = "LocalizareBiserici";
 	app.meta.h["name"] = "LocalizareBiserici2";
@@ -28919,7 +28919,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 922633;
+	this.version = 9337;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -31212,7 +31212,7 @@ var location_CurrentLocation = function(core) {
 			tmp.set_text(Std.string(tmp1) + " km");
 		});
 	} else {
-		window.alert("Activati locatia");
+		core.mainApp.nearestChurch.getNearestChurch().set_text("Activati locatia");
 	}
 };
 $hxClasses["location.CurrentLocation"] = location_CurrentLocation;
@@ -79912,7 +79912,7 @@ ui_mainapp_Header.prototype = {
 	,__class__: ui_mainapp_Header
 };
 var ui_mainapp_NearestChurch = function(core) {
-	this.nearestChurch = new feathers_controls_Label();
+	this.nearestChurch = new feathers_controls_Label("Activati Locatia");
 	this.refresh(core);
 };
 $hxClasses["ui.mainapp.NearestChurch"] = ui_mainapp_NearestChurch;
