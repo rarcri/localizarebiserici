@@ -890,7 +890,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "205";
+	app.meta.h["build"] = "207";
 	app.meta.h["company"] = "Company Name";
 	app.meta.h["file"] = "LocalizareBiserici";
 	app.meta.h["name"] = "LocalizareBiserici2";
@@ -28919,7 +28919,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 658681;
+	this.version = 922633;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -31172,44 +31172,48 @@ lime_utils_UInt8ClampedArray._clamp = function(_in) {
 	}
 };
 var location_CurrentLocation = function(core) {
-	$global.navigator.geolocation.getCurrentPosition(function(p) {
-		var value = Std.string(p.coords.latitude);
-		var this1 = location_CurrentLocation.currentLocation;
-		if(this1 != null) {
-			Reflect.setProperty(this1,"lat",value);
-		}
-		var value = Std.string(p.coords.longitude);
-		var this1 = location_CurrentLocation.currentLocation;
-		if(this1 != null) {
-			Reflect.setProperty(this1,"lon",value);
-		}
-		var nearestChurch = new location_GetNearestChurch(p.coords.latitude,p.coords.longitude);
-		location_CurrentLocation.church = nearestChurch.getChurch();
-		var tmp = core.mainApp.nearestChurch.getNearestChurch();
-		var a = openfl_utils_Object.__get(openfl_utils_Object.__getArray(location_CurrentLocation.church,0),"name");
-		var a1;
-		if(typeof(a) == "string" || typeof(" la ") == "string") {
-			var this1 = a;
-			a1 = (this1 == null ? null : Std.string(this1)) + " la ";
-		} else {
-			var floatA = a;
-			var floatB = " la ";
-			a1 = floatA + floatB;
-		}
-		var a = a1;
-		var b = openfl_utils_Object.__get(openfl_utils_Object.__getArray(location_CurrentLocation.church,0),"distanta");
-		var tmp1;
-		if(typeof(a) == "string" || typeof(b) == "string") {
-			var this1 = a;
-			var this2 = b;
-			tmp1 = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
-		} else {
-			var floatA = a;
-			var floatB = b;
-			tmp1 = floatA + floatB;
-		}
-		tmp.set_text(Std.string(tmp1) + " km");
-	});
+	if($global.navigator.geolocation != null) {
+		$global.navigator.geolocation.watchPosition(function(p) {
+			var value = Std.string(p.coords.latitude);
+			var this1 = location_CurrentLocation.currentLocation;
+			if(this1 != null) {
+				Reflect.setProperty(this1,"lat",value);
+			}
+			var value = Std.string(p.coords.longitude);
+			var this1 = location_CurrentLocation.currentLocation;
+			if(this1 != null) {
+				Reflect.setProperty(this1,"lon",value);
+			}
+			var nearestChurch = new location_GetNearestChurch(p.coords.latitude,p.coords.longitude);
+			location_CurrentLocation.church = nearestChurch.getChurch();
+			var tmp = core.mainApp.nearestChurch.getNearestChurch();
+			var a = openfl_utils_Object.__get(openfl_utils_Object.__getArray(location_CurrentLocation.church,0),"name");
+			var a1;
+			if(typeof(a) == "string" || typeof(" la ") == "string") {
+				var this1 = a;
+				a1 = (this1 == null ? null : Std.string(this1)) + " la ";
+			} else {
+				var floatA = a;
+				var floatB = " la ";
+				a1 = floatA + floatB;
+			}
+			var a = a1;
+			var b = openfl_utils_Object.__get(openfl_utils_Object.__getArray(location_CurrentLocation.church,0),"distanta");
+			var tmp1;
+			if(typeof(a) == "string" || typeof(b) == "string") {
+				var this1 = a;
+				var this2 = b;
+				tmp1 = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
+			} else {
+				var floatA = a;
+				var floatB = b;
+				tmp1 = floatA + floatB;
+			}
+			tmp.set_text(Std.string(tmp1) + " km");
+		});
+	} else {
+		window.alert("Activati locatia");
+	}
 };
 $hxClasses["location.CurrentLocation"] = location_CurrentLocation;
 location_CurrentLocation.__name__ = "location.CurrentLocation";
