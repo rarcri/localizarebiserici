@@ -890,13 +890,13 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "210";
+	app.meta.h["build"] = "240";
 	app.meta.h["company"] = "Company Name";
 	app.meta.h["file"] = "LocalizareBiserici";
-	app.meta.h["name"] = "LocalizareBiserici2";
+	app.meta.h["name"] = "LocalizareBiserici";
 	app.meta.h["packageName"] = "com.rarcri.localizarebiserici";
 	app.meta.h["version"] = "1.0.0";
-	var attributes = { allowHighDPI : true, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, title : "LocalizareBiserici2", width : 0, x : null, y : null};
+	var attributes = { allowHighDPI : true, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 0, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, title : "LocalizareBiserici", width : 0, x : null, y : null};
 	attributes.context = { antialiasing : 0, background : 16777215, colorDepth : 32, depth : true, hardware : true, stencil : true, type : null, vsync : false};
 	if(app.__window == null) {
 		if(config != null) {
@@ -3529,7 +3529,7 @@ ManifestResources.init = function(config) {
 		ManifestResources.rootPath = "./";
 	}
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy22:assets%2Fbiserici.jsony4:sizei513y4:typey4:TEXTy2:idR1y7:preloadtgoR0y21:assets%2Fregions.jsonR2i1571122R3R4R5R7R6tgoR0y17:assets%2Fscan.gifR2i1481006R3y5:IMAGER5R8R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy22:assets%2Fbiserici.jsony4:sizei513y4:typey4:TEXTy2:idR1y7:preloadtgoR0y21:assets%2Fregions.jsonR2i1571122R3R4R5R7R6tgoR0y18:assets%2Fradar.pngR2i661607R3y5:IMAGER5R8R6tgoR0y17:assets%2Fscan.gifR2i1481006R3R9R5R10R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -28919,7 +28919,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 9337;
+	this.version = 114625;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -79900,12 +79900,10 @@ ui_mainapp_Header.prototype = {
 		this.title.refresh(core);
 		var stageWidth = core.stage.stageWidth;
 		var stageHeight = core.stage.stageHeight;
-		this.header.set_width(stageWidth);
-		this.header.set_height(0.10 * stageHeight);
 		this.header.set_x(0);
 		this.header.set_y(0);
 		this.header.get_graphics().clear();
-		this.header.get_graphics().beginFill(39423);
+		this.header.get_graphics().beginFill(34816);
 		this.header.get_graphics().drawRect(0,0,stageWidth,stageHeight * 0.1);
 		this.header.get_graphics().endFill();
 	}
@@ -79928,14 +79926,19 @@ ui_mainapp_NearestChurch.prototype = {
 		var stageWidth = core.stage.stageWidth;
 		var stageHeight = core.stage.stageHeight;
 		this.nearestChurch.set_width(0.7 * stageWidth);
-		this.nearestChurch.set_height(0.1 * stageHeight);
+		this.nearestChurch.set_height(0.2 * stageHeight);
+		this.nearestChurch.set_wordWrap(true);
 		this.nearestChurch.set_x(0.5 * stageWidth - 0.5 * this.nearestChurch.get_width());
-		this.nearestChurch.set_y(0.55 * stageHeight);
+		this.nearestChurch.set_y(0.50 * stageHeight);
+		this.nearestChurch.set_textFormat(new feathers_text_TextFormat("Arial",0.03 * stageHeight | 0));
 	}
 	,__class__: ui_mainapp_NearestChurch
 };
 var ui_mainapp_Radar = function(core) {
 	this.radar = new openfl_display_Sprite();
+	var bitmapData = openfl_utils_Assets.getBitmapData("assets/radar.png");
+	this.bitmap = new openfl_display_Bitmap(bitmapData);
+	this.radar.addChild(this.bitmap);
 	this.refresh(core);
 };
 $hxClasses["ui.mainapp.Radar"] = ui_mainapp_Radar;
@@ -79947,19 +79950,12 @@ ui_mainapp_Radar.prototype = {
 	,refresh: function(core) {
 		var stageWidth = core.stage.stageWidth;
 		var stageHeight = core.stage.stageHeight;
-		if(stageWidth < stageHeight) {
-			this.radar.set_width(0.2 * stageWidth);
-			this.radar.set_height(0.2 * stageWidth);
-		} else {
-			this.radar.set_width(0.2 * stageHeight);
-			this.radar.set_height(0.2 * stageHeight);
-		}
 		this.radar.set_x(0.5 * stageWidth - 0.5 * this.radar.get_width());
 		this.radar.set_y(0.2 * stageHeight);
-		this.radar.get_graphics().clear();
-		this.radar.get_graphics().beginFill(16711680);
-		this.radar.get_graphics().drawEllipse(0,0,0.2 * stageWidth,0.2 * stageWidth);
-		this.radar.get_graphics().endFill();
+		this.bitmap.set_x(0);
+		this.bitmap.set_y(0);
+		this.bitmap.set_width(0.25 * stageHeight);
+		this.bitmap.set_height(0.25 * stageHeight);
 	}
 	,__class__: ui_mainapp_Radar
 };
@@ -79980,6 +79976,10 @@ ui_mainapp_SearchButton.prototype = {
 		this.searchButton.set_height(0.1 * stageHeight);
 		this.searchButton.set_x(stageWidth / 2 - this.searchButton.get_width() / 2);
 		this.searchButton.set_y(0.7 * stageHeight);
+		var skin = new feathers_skins_RectangleSkin();
+		skin.set_fill(feathers_graphics_FillStyle.SolidColor(34816));
+		this.searchButton.set_backgroundSkin(skin);
+		this.searchButton.set_textFormat(new feathers_text_TextFormat("Arial",0.03 * stageHeight | 0,16777215));
 	}
 	,__class__: ui_mainapp_SearchButton
 };
@@ -79996,10 +79996,11 @@ ui_mainapp_header_Title.prototype = {
 	,refresh: function(core) {
 		var stageWidth = core.stage.stageWidth;
 		var stageHeight = core.stage.stageHeight;
-		var textFormat = new feathers_text_TextFormat("Arial",25,16777215);
+		var textSize = 0.04 * stageHeight | 0;
+		var textFormat = new feathers_text_TextFormat("Arial",textSize,16777215);
 		this.title.set_textFormat(textFormat);
-		this.title.set_x(0.2 * stageWidth);
-		this.title.set_y(0);
+		this.title.set_x(0.04 * stageWidth);
+		this.title.set_y(0.02 * stageHeight);
 	}
 	,__class__: ui_mainapp_header_Title
 };
