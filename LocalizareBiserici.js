@@ -890,7 +890,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "303";
+	app.meta.h["build"] = "308";
 	app.meta.h["company"] = "Company Name";
 	app.meta.h["file"] = "LocalizareBiserici";
 	app.meta.h["name"] = "LocalizareBiserici";
@@ -28995,7 +28995,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 111710;
+	this.version = 273034;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -31400,16 +31400,16 @@ var location_SetDetails = function(core,church) {
 	var long = this1 == null ? null : Std.string(this1);
 	var tmp = core.detailsView.details.getDetails();
 	var tmp1;
-	if(typeof("Nume: ") == "string" || typeof(nume) == "string") {
-		var this1 = "Nume: ";
+	if(typeof("\n\t\t\t<b>Nume:</b> ") == "string" || typeof(nume) == "string") {
+		var this1 = "\n\t\t\t<b>Nume:</b> ";
 		var this2 = nume;
 		tmp1 = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
 	} else {
-		var floatA = "Nume: ";
+		var floatA = "\n\t\t\t<b>Nume:</b> ";
 		var floatB = nume;
 		tmp1 = floatA + floatB;
 	}
-	tmp.set_text(Std.string(tmp1) + " \n\n\t\tAdresa: " + adresa + " \n\n\t\tConferinta: " + conferinta + " \n\n\t\tWebsite: " + website + " \n\n\t\tEmail: " + email + " \n\n\t\tProgram: " + program + "\n\n\t\tLatitudine: " + lat + " \n\n\t\tLongitudine: " + long);
+	tmp.set_htmlText(Std.string(tmp1) + "\n\t\t\t<b>Adresa:</b> " + adresa + "\n\t\t\t<b>Conferinta:</b> " + conferinta + "\n\t\t\t<b>Website:</b> " + website + "\n\t\t\t<b>Email:</b> " + email + "\n\t\t\t<b>Program:</b> " + program + "\n\t\t\t<b>Latitudine:</b> " + lat + "\n\t\t\t<b>Longitudine:</b> " + long);
 };
 $hxClasses["location.SetDetails"] = location_SetDetails;
 location_SetDetails.__name__ = "location.SetDetails";
@@ -80099,7 +80099,6 @@ ui_detailsview_BackButton.prototype = {
 };
 var ui_detailsview_Details = function(core) {
 	this.details = new openfl_text_TextField();
-	this.details.set_text("How are you \n This is very nice");
 	this.refresh(core);
 };
 $hxClasses["ui.detailsview.Details"] = ui_detailsview_Details;
