@@ -1,26 +1,113 @@
 [    
     {
         "name":"Biserica AZS Lunca Ampoitei",
+        "adresa":{
+            "judet": "Alba",
+            "oras":"Lunca Ampoitei",
+            "strada":"Strada Progresului",
+            "nr": 34
+        },
+        "conferinta":"Transilvania de Nord", 
+        "website": "",
+        "email":"",
+        "program":[{
+            "ziua":"Sâmbătă",
+            "ora_incepere":"9:30",
+            "ora_incheiere":"12:30"
+        }],
         "lat":"46.13905125936555",
-        "long":"23.37549861113408"
+        "lon":"23.37549861113408"
 
     },
     {
         "name":"Biserica AZS Alba Iulia",
+        "adresa":{
+            "judet": "Alba",
+            "oras":"Alba Iulia",
+            "strada":"Strada Progresului",
+            "nr": 34
+        },
+        "cod_postal":"510001",
+        "conferinta":"Transilvania de Nord",
+        "website":"",
+        "email":"",
+        "program":[
+        {
+            "ziua":"Sâmbătă",
+            "ora_incepere":"9:00",
+            "ora_incheiere":"12:00"
+        },
+        {
+            "ziua":"Sâmbătă",
+            "ora_incepere":"17:00",
+            "ora_incheiere":"18:00"
+        }
+    ],
         "lat":"46.0743294161977", 
-        "long":"23.565809905868225"
+        "lon":"23.565809905868225"
+
+
 
     },
     {
         "name":"Biserica AZS Brasov",
+        "adresa":{
+            "judet": "Brasov",
+            "oras":"Brasov",
+            "strada":"Strada Progresului",
+            "nr": 34
+        },
+        "cod_postal": "500063",
+        "conferinta":"Transilvania de Sud",
+        "website":"",
+        "email":"",
+        "program":[
+        {
+            "ziua":"Sâmbătă",
+            "ora_incepere":"9:00",
+            "ora_incheiere":"12:00"
+        },
+        {
+            "ziua":"Sâmbătă",
+            "ora_incepere":"17:00",
+            "ora_incheiere":"18:00"
+        },
+        {
+            "ziua":"Vineri",
+            "ora_incepere":"17:00",
+            "ora_incheiere":"18:00"
+        }
+    ],
         "lat":"45.6616627908713", 
-        "long":"25.588157305991825"
+        "lon":"25.588157305991825"
 
     },
     {
         "name":"Biserica AZS Baia Mare",
+        "adresa":{
+            "judet": "Maramureș",
+            "strada":"Strada Progresului",
+            "nr": 34,
+            "oras":"Baia Mare"
+        },
+        "cod_postal":"510001",
+        "conferinta":"Transilvania de Nord",
+        "website":"",
+        "email":"",
+        "program":[
+        {
+            "ziua":"Sâmbătă",
+            "ora_incepere":"9:00",
+            "ora_incheiere":"12:00"
+        },
+        {
+            "ziua":"Sâmbătă",
+            "ora_incepere":"17:00",
+            "ora_incheiere":"18:00"
+        }
+    ],
         "lat":"47.65338637234656", 
-        "long":"23.575528018229697"
+        "lon":"23.575528018229697"
 
     }
 ]

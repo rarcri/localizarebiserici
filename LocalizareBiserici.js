@@ -890,7 +890,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "240";
+	app.meta.h["build"] = "303";
 	app.meta.h["company"] = "Company Name";
 	app.meta.h["file"] = "LocalizareBiserici";
 	app.meta.h["name"] = "LocalizareBiserici";
@@ -3346,6 +3346,7 @@ DocumentClass.prototype = $extend(Main.prototype,{
 var Core = function(stage) {
 	this.stage = stage;
 	this.mainApp = new ui_MainApp(this);
+	this.detailsView = new ui_DetailsView(this);
 	this.core = new openfl_display_Sprite();
 	this.core.addChild(this.mainApp.getMainApp());
 	new location_CurrentLocation(this);
@@ -3356,6 +3357,10 @@ Core.__name__ = "Core";
 Core.prototype = {
 	getCore: function() {
 		return this.core;
+	}
+	,refresh: function(core) {
+		this.mainApp.refresh(core);
+		this.detailsView.refresh(core);
 	}
 	,__class__: Core
 };
@@ -3529,7 +3534,7 @@ ManifestResources.init = function(config) {
 		ManifestResources.rootPath = "./";
 	}
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy22:assets%2Fbiserici.jsony4:sizei513y4:typey4:TEXTy2:idR1y7:preloadtgoR0y21:assets%2Fregions.jsonR2i1571122R3R4R5R7R6tgoR0y18:assets%2Fradar.pngR2i661607R3y5:IMAGER5R8R6tgoR0y17:assets%2Fscan.gifR2i1481006R3R9R5R10R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy22:assets%2Fbiserici.jsony4:sizei2675y4:typey4:TEXTy2:idR1y7:preloadtgoR0y21:assets%2Fregions.jsonR2i1571122R3R4R5R7R6tgoR0y18:assets%2Fradar.pngR2i661607R3y5:IMAGER5R8R6tgoR0y17:assets%2Fscan.gifR2i1481006R3R9R5R10R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -3939,17 +3944,86 @@ UInt.toFloat = function(this1) {
 	}
 };
 var events_EventsHandler = function(core) {
-	this.core = core;
+	new events_eventhandlers_StageEventHandler(core);
+	new events_eventhandlers_mainapp_SearchButtonEventHandler(core);
+	new events_eventhandlers_mainapp_NearestChurchEventHandler(core);
+	new events_eventhandlers_detailsview_BackButtonEventHandler(core);
+};
+$hxClasses["events.EventsHandler"] = events_EventsHandler;
+events_EventsHandler.__name__ = "events.EventsHandler";
+events_EventsHandler.prototype = {
+	__class__: events_EventsHandler
+};
+var events_eventhandlers_StageEventHandler = function(core) {
 	core.stage.addEventListener("resize",function(event) {
-		core.mainApp.refresh(core);
-		haxe_Log.trace("refresh",{ fileName : "Source/events/EventsHandler.hx", lineNumber : 21, className : "events.EventsHandler", methodName : "new"});
+		core.refresh(core);
+		haxe_Log.trace("refresh",{ fileName : "Source/events/eventhandlers/StageEventHandler.hx", lineNumber : 10, className : "events.eventhandlers.StageEventHandler", methodName : "new"});
 	});
-	core.mainApp.searchButton.getSearchButton().addEventListener("click",function(event) {
+};
+$hxClasses["events.eventhandlers.StageEventHandler"] = events_eventhandlers_StageEventHandler;
+events_eventhandlers_StageEventHandler.__name__ = "events.eventhandlers.StageEventHandler";
+events_eventhandlers_StageEventHandler.prototype = {
+	__class__: events_eventhandlers_StageEventHandler
+};
+var events_eventhandlers_detailsview_BackButtonEventHandler = function(core) {
+	this.core = core;
+	var backButton = core.detailsView.backButton.getBackButton();
+	backButton.addEventListener("click",$bind(this,this.handleClick));
+	backButton.addEventListener("mouseOver",$bind(this,this.handleMouseOver));
+	backButton.addEventListener("mouseOut",$bind(this,this.handleMouseOut));
+};
+$hxClasses["events.eventhandlers.detailsview.BackButtonEventHandler"] = events_eventhandlers_detailsview_BackButtonEventHandler;
+events_eventhandlers_detailsview_BackButtonEventHandler.__name__ = "events.eventhandlers.detailsview.BackButtonEventHandler";
+events_eventhandlers_detailsview_BackButtonEventHandler.prototype = {
+	handleClick: function(event) {
+		this.core.getCore().removeChild(this.core.detailsView.getDetailsView());
+		this.core.getCore().addChild(this.core.mainApp.getMainApp());
+	}
+	,handleMouseOver: function(event) {
+		openfl_ui_Mouse.set_cursor("button");
+	}
+	,handleMouseOut: function(event) {
+		openfl_ui_Mouse.set_cursor("arrow");
+	}
+	,__class__: events_eventhandlers_detailsview_BackButtonEventHandler
+};
+var events_eventhandlers_mainapp_NearestChurchEventHandler = function(core) {
+	this.core = core;
+	var nearestChurch = core.mainApp.nearestChurch.getNearestChurch();
+	nearestChurch.addEventListener("click",$bind(this,this.handleClick));
+	nearestChurch.addEventListener("mouseOver",$bind(this,this.handleMouseOver));
+	nearestChurch.addEventListener("mouseOut",$bind(this,this.handleMouseOut));
+};
+$hxClasses["events.eventhandlers.mainapp.NearestChurchEventHandler"] = events_eventhandlers_mainapp_NearestChurchEventHandler;
+events_eventhandlers_mainapp_NearestChurchEventHandler.__name__ = "events.eventhandlers.mainapp.NearestChurchEventHandler";
+events_eventhandlers_mainapp_NearestChurchEventHandler.prototype = {
+	handleClick: function(event) {
+		this.core.getCore().removeChild(this.core.mainApp.getMainApp());
+		this.core.getCore().addChild(this.core.detailsView.getDetailsView());
+	}
+	,handleMouseOver: function(event) {
+		openfl_ui_Mouse.set_cursor("button");
+	}
+	,handleMouseOut: function(event) {
+		openfl_ui_Mouse.set_cursor("arrow");
+	}
+	,__class__: events_eventhandlers_mainapp_NearestChurchEventHandler
+};
+var events_eventhandlers_mainapp_SearchButtonEventHandler = function(core) {
+	var searchButton = core.mainApp.searchButton.getSearchButton();
+	searchButton.addEventListener("click",$bind(this,this.handleClick));
+	searchButton.addEventListener("mouseOver",$bind(this,this.handleMouseOver));
+	searchButton.addEventListener("mouseOut",$bind(this,this.handleMouseOut));
+};
+$hxClasses["events.eventhandlers.mainapp.SearchButtonEventHandler"] = events_eventhandlers_mainapp_SearchButtonEventHandler;
+events_eventhandlers_mainapp_SearchButtonEventHandler.__name__ = "events.eventhandlers.mainapp.SearchButtonEventHandler";
+events_eventhandlers_mainapp_SearchButtonEventHandler.prototype = {
+	handleClick: function(event) {
 		var a = window.document.createElement("a");
 		var lat1 = openfl_utils_Object.__get(location_CurrentLocation.getCurrentLocation(),"lat");
 		var lon1 = openfl_utils_Object.__get(location_CurrentLocation.getCurrentLocation(),"lon");
-		var lat2 = openfl_utils_Object.__get(openfl_utils_Object.__getArray(location_CurrentLocation.getChurch(),0),"lat");
-		var lon2 = openfl_utils_Object.__get(openfl_utils_Object.__getArray(location_CurrentLocation.getChurch(),0),"lon");
+		var lat2 = openfl_utils_Object.__get(location_CurrentLocation.getChurch()[0],"lat");
+		var lon2 = openfl_utils_Object.__get(location_CurrentLocation.getChurch()[0],"lon");
 		var a1;
 		if(typeof("https://www.google.com/maps/dir/(") == "string" || typeof(lat1) == "string") {
 			var this1 = lat1;
@@ -3994,12 +4068,14 @@ var events_EventsHandler = function(core) {
 		}
 		a.href = Std.string(tmp) + ")";
 		a.click();
-	});
-};
-$hxClasses["events.EventsHandler"] = events_EventsHandler;
-events_EventsHandler.__name__ = "events.EventsHandler";
-events_EventsHandler.prototype = {
-	__class__: events_EventsHandler
+	}
+	,handleMouseOver: function(event) {
+		openfl_ui_Mouse.set_cursor("button");
+	}
+	,handleMouseOut: function(event) {
+		openfl_ui_Mouse.set_cursor("arrow");
+	}
+	,__class__: events_eventhandlers_mainapp_SearchButtonEventHandler
 };
 var feathers_core_IValidating = function() { };
 $hxClasses["feathers.core.IValidating"] = feathers_core_IValidating;
@@ -28919,7 +28995,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 114625;
+	this.version = 111710;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -31172,48 +31248,19 @@ lime_utils_UInt8ClampedArray._clamp = function(_in) {
 	}
 };
 var location_CurrentLocation = function(core) {
-	if($global.navigator.geolocation != null) {
-		$global.navigator.geolocation.watchPosition(function(p) {
-			var value = Std.string(p.coords.latitude);
-			var this1 = location_CurrentLocation.currentLocation;
-			if(this1 != null) {
-				Reflect.setProperty(this1,"lat",value);
-			}
-			var value = Std.string(p.coords.longitude);
-			var this1 = location_CurrentLocation.currentLocation;
-			if(this1 != null) {
-				Reflect.setProperty(this1,"lon",value);
-			}
-			var nearestChurch = new location_GetNearestChurch(p.coords.latitude,p.coords.longitude);
-			location_CurrentLocation.church = nearestChurch.getChurch();
-			var tmp = core.mainApp.nearestChurch.getNearestChurch();
-			var a = openfl_utils_Object.__get(openfl_utils_Object.__getArray(location_CurrentLocation.church,0),"name");
-			var a1;
-			if(typeof(a) == "string" || typeof(" la ") == "string") {
-				var this1 = a;
-				a1 = (this1 == null ? null : Std.string(this1)) + " la ";
-			} else {
-				var floatA = a;
-				var floatB = " la ";
-				a1 = floatA + floatB;
-			}
-			var a = a1;
-			var b = openfl_utils_Object.__get(openfl_utils_Object.__getArray(location_CurrentLocation.church,0),"distanta");
-			var tmp1;
-			if(typeof(a) == "string" || typeof(b) == "string") {
-				var this1 = a;
-				var this2 = b;
-				tmp1 = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
-			} else {
-				var floatA = a;
-				var floatB = b;
-				tmp1 = floatA + floatB;
-			}
-			tmp.set_text(Std.string(tmp1) + " km");
-		});
-	} else {
-		core.mainApp.nearestChurch.getNearestChurch().set_text("Activati locatia");
-	}
+	$global.navigator.geolocation.watchPosition(function(p) {
+		var value = Std.string(p.coords.latitude);
+		var this1 = location_CurrentLocation.currentLocation;
+		if(this1 != null) {
+			Reflect.setProperty(this1,"lat",value);
+		}
+		var value = Std.string(p.coords.longitude);
+		var this1 = location_CurrentLocation.currentLocation;
+		if(this1 != null) {
+			Reflect.setProperty(this1,"lon",value);
+		}
+		location_CurrentLocation.setNearestChurch = new location_SetNearestChurch(core,p);
+	});
 };
 $hxClasses["location.CurrentLocation"] = location_CurrentLocation;
 location_CurrentLocation.__name__ = "location.CurrentLocation";
@@ -31221,12 +31268,12 @@ location_CurrentLocation.getCurrentLocation = function() {
 	return location_CurrentLocation.currentLocation;
 };
 location_CurrentLocation.getChurch = function() {
-	return location_CurrentLocation.church;
+	return location_CurrentLocation.setNearestChurch.getChurch();
 };
 location_CurrentLocation.prototype = {
 	__class__: location_CurrentLocation
 };
-var location_GetNearestChurch = function(lat,long) {
+var location_GetNearestChurch = function(lat,lon) {
 	var json = openfl_utils_Assets.getText("assets/biserici.json");
 	this.biserici = JSON.parse(json);
 	this.distante = [];
@@ -31236,11 +31283,11 @@ var location_GetNearestChurch = function(lat,long) {
 		var church = _g1[_g];
 		++_g;
 		var lat1 = lat;
-		var lon1 = long;
+		var lon1 = lon;
 		var lat2 = parseFloat(church.lat);
-		var lon2 = parseFloat(church.long);
+		var lon2 = parseFloat(church.lon);
 		var distanta = location_Location.calculateDistance(lat1,lon1,lat2,lon2);
-		this.distante.push({ name : church.name, lat : church.lat, lon : church.long, distanta : distanta});
+		this.distante.push({ name : church.name, adresa : church.adresa, conferinta : church.conferinta, website : church.website, email : church.email, program : church.program, lat : church.lat, lon : church.lon, distanta : distanta});
 	}
 	this.distante.sort(function(a,b) {
 		if(openfl_utils_Object.__lt(openfl_utils_Object.__get(a,"distanta"),openfl_utils_Object.__get(b,"distanta"))) {
@@ -31252,7 +31299,7 @@ var location_GetNearestChurch = function(lat,long) {
 			return 0;
 		}
 	});
-	haxe_Log.trace(this.distante,{ fileName : "Source/location/GetNearestChurch.hx", lineNumber : 45, className : "location.GetNearestChurch", methodName : "new"});
+	haxe_Log.trace(this.distante,{ fileName : "Source/location/GetNearestChurch.hx", lineNumber : 50, className : "location.GetNearestChurch", methodName : "new"});
 };
 $hxClasses["location.GetNearestChurch"] = location_GetNearestChurch;
 location_GetNearestChurch.__name__ = "location.GetNearestChurch";
@@ -31281,6 +31328,130 @@ location_Location.degToRad = function(deg) {
 };
 location_Location.prototype = {
 	__class__: location_Location
+};
+var location_SetDetails = function(core,church) {
+	var nume = openfl_utils_Object.__get(church,"name");
+	var a = openfl_utils_Object.__get(openfl_utils_Object.__get(church,"adresa"),"judet");
+	var a1;
+	if(typeof(a) == "string" || typeof(" ") == "string") {
+		var this1 = a;
+		a1 = (this1 == null ? null : Std.string(this1)) + " ";
+	} else {
+		var floatA = a;
+		var floatB = " ";
+		a1 = floatA + floatB;
+	}
+	var a = a1;
+	var b = openfl_utils_Object.__get(openfl_utils_Object.__get(church,"adresa"),"oras");
+	var a1;
+	if(typeof(a) == "string" || typeof(b) == "string") {
+		var this1 = a;
+		var this2 = b;
+		a1 = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
+	} else {
+		var floatA = a;
+		var floatB = b;
+		a1 = floatA + floatB;
+	}
+	var a = Std.string(a1) + " ";
+	var b = openfl_utils_Object.__get(openfl_utils_Object.__get(church,"adresa"),"strada");
+	var a1;
+	if(typeof(a) == "string" || typeof(b) == "string") {
+		var this1 = a;
+		var this2 = b;
+		a1 = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
+	} else {
+		var floatA = a;
+		var floatB = b;
+		a1 = floatA + floatB;
+	}
+	var a = Std.string(a1) + " ";
+	var b = openfl_utils_Object.__get(openfl_utils_Object.__get(church,"adresa"),"nr");
+	var adresa;
+	if(typeof(a) == "string" || typeof(b) == "string") {
+		var this1 = a;
+		var this2 = b;
+		adresa = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
+	} else {
+		var floatA = a;
+		var floatB = b;
+		adresa = floatA + floatB;
+	}
+	var this1 = openfl_utils_Object.__get(church,"conferinta");
+	var conferinta = this1 == null ? null : Std.string(this1);
+	var website;
+	if(!null) {
+		var this1 = openfl_utils_Object.__get(church,"website");
+		website = this1 == null ? null : Std.string(this1);
+	} else {
+		website = "-";
+	}
+	var email;
+	if(!null) {
+		var this1 = openfl_utils_Object.__get(church,"website");
+		email = this1 == null ? null : Std.string(this1);
+	} else {
+		email = "-";
+	}
+	var program = "-";
+	var this1 = openfl_utils_Object.__get(church,"lat");
+	var lat = this1 == null ? null : Std.string(this1);
+	var this1 = openfl_utils_Object.__get(church,"lon");
+	var long = this1 == null ? null : Std.string(this1);
+	var tmp = core.detailsView.details.getDetails();
+	var tmp1;
+	if(typeof("Nume: ") == "string" || typeof(nume) == "string") {
+		var this1 = "Nume: ";
+		var this2 = nume;
+		tmp1 = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
+	} else {
+		var floatA = "Nume: ";
+		var floatB = nume;
+		tmp1 = floatA + floatB;
+	}
+	tmp.set_text(Std.string(tmp1) + " \n\n\t\tAdresa: " + adresa + " \n\n\t\tConferinta: " + conferinta + " \n\n\t\tWebsite: " + website + " \n\n\t\tEmail: " + email + " \n\n\t\tProgram: " + program + "\n\n\t\tLatitudine: " + lat + " \n\n\t\tLongitudine: " + long);
+};
+$hxClasses["location.SetDetails"] = location_SetDetails;
+location_SetDetails.__name__ = "location.SetDetails";
+location_SetDetails.prototype = {
+	__class__: location_SetDetails
+};
+var location_SetNearestChurch = function(core,p) {
+	var nearestChurch = new location_GetNearestChurch(p.coords.latitude,p.coords.longitude);
+	this.church = nearestChurch.getChurch();
+	var tmp = core.mainApp.nearestChurch.getNearestChurch();
+	var a = openfl_utils_Object.__get(this.church[0],"name");
+	var a1;
+	if(typeof(a) == "string" || typeof(" la ") == "string") {
+		var this1 = a;
+		a1 = (this1 == null ? null : Std.string(this1)) + " la ";
+	} else {
+		var floatA = a;
+		var floatB = " la ";
+		a1 = floatA + floatB;
+	}
+	var a = a1;
+	var b = openfl_utils_Object.__get(this.church[0],"distanta");
+	var tmp1;
+	if(typeof(a) == "string" || typeof(b) == "string") {
+		var this1 = a;
+		var this2 = b;
+		tmp1 = (this1 == null ? null : Std.string(this1)) + (this2 == null ? null : Std.string(this2));
+	} else {
+		var floatA = a;
+		var floatB = b;
+		tmp1 = floatA + floatB;
+	}
+	tmp.set_text(Std.string(tmp1) + " km");
+	new location_SetDetails(core,this.church[0]);
+};
+$hxClasses["location.SetNearestChurch"] = location_SetNearestChurch;
+location_SetNearestChurch.__name__ = "location.SetNearestChurch";
+location_SetNearestChurch.prototype = {
+	getChurch: function() {
+		return this.church;
+	}
+	,__class__: location_SetNearestChurch
 };
 var openfl_Lib = function() { };
 $hxClasses["openfl.Lib"] = openfl_Lib;
@@ -79859,6 +80030,28 @@ openfl_utils__$internal_TouchData.prototype = {
 	}
 	,__class__: openfl_utils__$internal_TouchData
 };
+var ui_DetailsView = function(core) {
+	this.detailsView = new openfl_display_Sprite();
+	this.header = new ui_mainapp_Header(core);
+	this.backButton = new ui_detailsview_BackButton(core);
+	this.details = new ui_detailsview_Details(core);
+	this.detailsView.addChild(this.header.getHeader());
+	this.detailsView.addChild(this.backButton.getBackButton());
+	this.detailsView.addChild(this.details.getDetails());
+};
+$hxClasses["ui.DetailsView"] = ui_DetailsView;
+ui_DetailsView.__name__ = "ui.DetailsView";
+ui_DetailsView.prototype = {
+	getDetailsView: function() {
+		return this.detailsView;
+	}
+	,refresh: function(core) {
+		this.header.refresh(core);
+		this.backButton.refresh(core);
+		this.details.refresh(core);
+	}
+	,__class__: ui_DetailsView
+};
 var ui_MainApp = function(core) {
 	this.header = new ui_mainapp_Header(core);
 	this.nearestChurch = new ui_mainapp_NearestChurch(core);
@@ -79883,6 +80076,49 @@ ui_MainApp.prototype = {
 		this.searchButton.refresh(core);
 	}
 	,__class__: ui_MainApp
+};
+var ui_detailsview_BackButton = function(core) {
+	this.backButton = new feathers_controls_Button("< Înapoi");
+	this.refresh(core);
+};
+$hxClasses["ui.detailsview.BackButton"] = ui_detailsview_BackButton;
+ui_detailsview_BackButton.__name__ = "ui.detailsview.BackButton";
+ui_detailsview_BackButton.prototype = {
+	getBackButton: function() {
+		return this.backButton;
+	}
+	,refresh: function(core) {
+		var stageWidth = core.stage.stageWidth;
+		var stageHeight = core.stage.stageHeight;
+		this.backButton.set_width(0.1 * stageHeight);
+		this.backButton.set_height(0.05 * stageHeight);
+		this.backButton.set_x(0.05 * stageWidth);
+		this.backButton.set_y(0.15 * stageHeight);
+	}
+	,__class__: ui_detailsview_BackButton
+};
+var ui_detailsview_Details = function(core) {
+	this.details = new openfl_text_TextField();
+	this.details.set_text("How are you \n This is very nice");
+	this.refresh(core);
+};
+$hxClasses["ui.detailsview.Details"] = ui_detailsview_Details;
+ui_detailsview_Details.__name__ = "ui.detailsview.Details";
+ui_detailsview_Details.prototype = {
+	getDetails: function() {
+		return this.details;
+	}
+	,refresh: function(core) {
+		var stageWidth = core.stage.stageWidth;
+		var stageHeight = core.stage.stageHeight;
+		this.details.set_width(0.4 * stageHeight);
+		this.details.set_height(0.4 * stageHeight);
+		this.details.set_x(0.5 * stageWidth - 0.5 * this.details.get_width());
+		this.details.set_y(0.5 * stageHeight - 0.5 * this.details.get_width());
+		var textSize = 0.02 * stageHeight | 0;
+		this.details.set_defaultTextFormat(new openfl_text_TextFormat("Arial",textSize));
+	}
+	,__class__: ui_detailsview_Details
 };
 var ui_mainapp_Header = function(core) {
 	this.title = new ui_mainapp_header_Title(core);
